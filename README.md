@@ -1,60 +1,216 @@
-# SkyWatch Insights
+<p align="center">
+  <h1 align="center">SkyWatch Insights</h1>
+  <p align="center">
+    Plataforma fullstack de acompanhamento de eventos astronômicos com dados reais da NASA, NOAA e USNO.
+    <br />
+    Previsão de observabilidade, favoritos, observações pessoais e exportação para redes sociais.
+  </p>
+</p>
 
-Plataforma de acompanhamento de eventos astronômicos com previsão de observabilidade, favoritos, observações pessoais e exportação para redes sociais.
+---
 
-## Tecnologias
+## Sobre o projeto
 
-**Backend:** Java 21, Spring Boot 3.3, Spring Security, Spring Data JPA, Flyway, Redis 7, PostgreSQL 16
+O SkyWatch Insights é uma aplicação fullstack que consome **6 APIs externas reais** para catalogar eventos astronômicos — eclipses, chuvas de meteoros, auroras, passagens de cometas — e entrega ao usuário uma experiência completa de acompanhamento, com previsão de observabilidade baseada em clima, status inteligente em tempo real e ferramentas sociais.
 
-**Frontend:** React 18, TypeScript 5, Vite 5, Tailwind CSS, TanStack Query, React Router 6, Zod
+### Números do projeto
 
-**Infraestrutura:** Docker Compose, Nginx, Vercel Blob Storage
+| Métrica | Valor |
+|---|---|
+| Linhas de código | ~15.800 |
+| Classes Java (backend) | 132 |
+| Componentes TypeScript (frontend) | 76 |
+| Migrations SQL (Flyway) | 23 |
+| Módulos backend | 16 |
+| Módulos frontend | 9 |
+| APIs externas integradas | 6 |
+
+---
+
+## Stack
+
+### Backend
+| Tecnologia | Uso |
+|---|---|
+| **Java 21** | Linguagem principal |
+| **Spring Boot 3.3** | Framework REST API |
+| **Spring Security** | Autenticação JWT |
+| **Spring Data JPA + Hibernate** | ORM e acesso a dados |
+| **Flyway** | Versionamento de schema (23 migrations) |
+| **PostgreSQL 16** | Banco de dados principal |
+| **Redis 7** | Cache de dados lunares (TTL 30min) |
+| **MapStruct** | Mapeamento DTO/Entity |
+| **Spring Scheduler** | Sincronização automática de APIs |
+
+### Frontend
+| Tecnologia | Uso |
+|---|---|
+| **React 18** | UI library |
+| **TypeScript 5** | Tipagem estática |
+| **Vite 5** | Build tool |
+| **Tailwind CSS** | Design system dark customizado |
+| **TanStack Query** | Cache e sincronização de estado servidor |
+| **React Router 6** | Roteamento SPA |
+| **React Hook Form + Zod** | Formulários com validação |
+| **Lucide React** | Iconografia |
+
+### Infraestrutura
+| Tecnologia | Uso |
+|---|---|
+| **Docker Compose** | Orquestração de serviços |
+| **Nginx** | Reverse proxy e serving |
+| **Vercel Blob Storage** | Upload de avatares e imagens de exportação |
+
+---
 
 ## Funcionalidades
 
-- Catálogo de eventos astronômicos com dados de APIs reais (NASA, USNO, NOAA SWPC, Stellarium)
-- Previsão de observabilidade com dados climáticos (OpenWeatherMap)
-- Status inteligente dos eventos (próximo, em andamento, melhor janela, encerrado)
-- Sistema de favoritos com toggle e listagem paginada
-- Registro de observações pessoais com notas e condições
-- Comentários polimórficos em eventos e observações
-- Upload de avatar via Vercel Blob Storage
-- Exportação para redes sociais (beta)
-- Dashboard com estatísticas e destaques
-- Autenticação JWT com registro e login
+### Catálogo de eventos astronômicos
+Sincronização automática com NASA, USNO, NOAA SWPC e Stellarium. Eclipses solares/lunares, chuvas de meteoros, auroras boreais, trânsitos planetários e passagens de objetos próximos da Terra (NEOs).
 
-## Pré-requisitos
+### Status inteligente
+Cada evento exibe um status calculado em tempo real no frontend: **próximo**, **em andamento**, **melhor janela de observação** ou **encerrado** — baseado nas janelas temporais de início, pico e fim.
 
-- Docker e Docker Compose
-- Java 21 (desenvolvimento local do backend)
-- Node.js 20 (desenvolvimento local do frontend)
+### Previsão de observabilidade
+Integração com OpenWeatherMap para calcular a viabilidade de observação baseada em cobertura de nuvens, fase lunar e condições climáticas locais.
 
-## Início rápido
+### Favoritos e observações
+Sistema de favoritos com toggle e listagem paginada. Registro de observações pessoais com notas, condições do céu e equipamento utilizado.
+
+### Comentários polimórficos
+Arquitetura de comentários com `targetType` + `targetId` que atende tanto eventos quanto observações sem duplicação de tabelas ou lógica.
+
+### Upload de avatar
+Upload via Vercel Blob Storage com validação de tipo (JPEG, PNG, WebP, GIF) e tamanho (5MB), com preview em tempo real.
+
+### Exportação para redes sociais (Beta)
+Geração de cards visuais otimizados para Instagram, Twitter/X e Facebook com informações do evento.
+
+### Dashboard
+Estatísticas de uso, eventos próximos em destaque e resumo de atividade do usuário.
+
+### Autenticação
+Registro e login com JWT, proteção de rotas e gerenciamento de perfil.
+
+---
+
+## Decisões técnicas
+
+| Decisão | Motivação |
+|---|---|
+| **Comentários polimórficos** (`targetType` + `targetId`) | Evitar tabelas e controllers duplicados para comentários em eventos vs observações |
+| **Status inteligente no frontend** | Evitar carga desnecessária no backend — o cálculo depende apenas de timestamps já disponíveis |
+| **Cache Redis para dados lunares** | Dados da fase lunar mudam lentamente; cache de 30min reduz chamadas externas |
+| **Normalização de respostas paginadas** | Backend retorna `data`, frontend espera `content` — camada de normalização nos hooks evita acoplamento |
+| **`JOIN FETCH` com `countQuery`** | Resolver `LazyInitializationException` em listagens paginadas sem perder a paginação do Spring Data |
+| **Feature flag via env var** | Exportação em beta controlada por `VITE_ENABLE_EXPORT` com fallback visual no frontend |
+
+---
+
+## APIs externas integradas
+
+| API | Dados |
+|---|---|
+| **NASA APOD** | Imagem astronômica do dia |
+| **NASA NEO (NeoWs)** | Objetos próximos da Terra |
+| **NASA DONKI** | Tempestades geomagnéticas e CMEs |
+| **USNO** | Eclipses solares e lunares |
+| **NOAA SWPC** | Índice Kp para previsão de auroras |
+| **Stellarium** | Catálogo de chuvas de meteoros |
+| **OpenWeatherMap** | Previsão climática para observabilidade |
+| **AstronomyAPI** | Posições planetárias e eventos |
+| **JPL SBDB** | Dados de cometas e asteroides |
+
+---
+
+## Arquitetura
+
+```
+┌─────────────┐     ┌──────────────────┐     ┌──────────────┐
+│   Frontend   │────▶│   Backend API    │────▶│ PostgreSQL   │
+│  React/Vite  │     │  Spring Boot 3.3 │     │     16       │
+│  Port 3000   │     │    Port 8080     │     │  Port 5432   │
+└─────────────┘     └──────┬───────────┘     └──────────────┘
+                           │
+                    ┌──────┴───────┐
+                    │              │
+               ┌────▼────┐  ┌─────▼──────┐
+               │  Redis  │  │  APIs Ext.  │
+               │  Cache  │  │ NASA, NOAA  │
+               │  6379   │  │ USNO, etc.  │
+               └─────────┘  └────────────┘
+```
+
+---
+
+## Estrutura do projeto
+
+```
+backend/                          # API Spring Boot
+├── src/main/java/com/skywatch/
+│   ├── auth/                     # Autenticação JWT
+│   ├── event/                    # Eventos astronômicos
+│   ├── astrosync/                # Sincronização com APIs externas
+│   ├── forecast/                 # Previsão de observabilidade
+│   ├── favorite/                 # Sistema de favoritos
+│   ├── observation/              # Observações pessoais
+│   ├── comment/                  # Comentários polimórficos
+│   ├── export/                   # Exportação para redes sociais
+│   ├── user/                     # Perfil e avatar
+│   ├── dashboard/                # Dashboard e estatísticas
+│   ├── highlight/                # Destaques editoriais
+│   ├── analytics/                # Tracking de uso
+│   ├── admin/                    # Painel administrativo
+│   ├── location/                 # Localização do usuário
+│   ├── config/                   # Configurações (CORS, Security, Redis)
+│   └── shared/                   # DTOs e utilitários compartilhados
+├── src/main/resources/
+│   └── db/migration/             # 23 migrations Flyway
+└── build.gradle
+
+frontend/                         # SPA React
+├── src/
+│   ├── features/                 # Módulos por domínio
+│   │   ├── home/                 # Feed principal
+│   │   ├── events/               # Listagem e detalhe de eventos
+│   │   ├── favorites/            # Página de favoritos
+│   │   ├── observations/         # Observações pessoais
+│   │   ├── export/               # Exportação social (beta)
+│   │   ├── dashboard/            # Dashboard
+│   │   ├── auth/                 # Login, registro, configurações
+│   │   ├── admin/                # Painel admin
+│   │   └── analytics/            # Tracking
+│   ├── components/               # Componentes reutilizáveis
+│   ├── hooks/                    # Custom hooks (queries, mutations)
+│   └── lib/                      # API client, schemas, utils
+└── package.json
+
+infra/                            # Infraestrutura
+├── docker-compose.yml
+├── nginx.conf
+└── .env.example
+```
+
+---
+
+## Como executar
+
+### Com Docker (recomendado)
 
 ```bash
-# Subir todos os serviços
 cd infra
+cp .env.example .env              # configure suas API keys
 docker compose up --build -d
 ```
 
-- **Frontend:** http://localhost:3000
-- **Backend API:** http://localhost:8080
-- **PostgreSQL:** localhost:5432
-- **Redis:** localhost:6379
+| Serviço | URL |
+|---|---|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:8080 |
+| PostgreSQL | localhost:5432 |
+| Redis | localhost:6379 |
 
-## Variáveis de ambiente
-
-Crie um arquivo `.env` em `infra/` para configurar:
-
-| Variável | Descrição | Padrão |
-|---|---|---|
-| `BLOB_READ_WRITE_TOKEN` | Token do Vercel Blob Storage | — |
-| `NASA_API_KEY` | Chave da API da NASA | `DEMO_KEY` |
-| `ASTRONOMY_API_APP_ID` | App ID do AstronomyAPI | — |
-| `ASTRONOMY_API_APP_SECRET` | App Secret do AstronomyAPI | — |
-| `VITE_ENABLE_EXPORT` | Habilitar exportação para redes sociais | `false` |
-
-## Desenvolvimento local
+### Desenvolvimento local
 
 ```bash
 # Backend
@@ -67,30 +223,24 @@ npm install
 npm run dev
 ```
 
-## Testes
+---
 
-```bash
-# Frontend
-cd frontend
-npm test
-npm run lint
-```
+## Variáveis de ambiente
 
-## Estrutura do projeto
+| Variável | Descrição | Padrão |
+|---|---|---|
+| `POSTGRES_DB` | Nome do banco | `skywatch` |
+| `POSTGRES_USER` | Usuário do banco | `skywatch` |
+| `POSTGRES_PASSWORD` | Senha do banco | — |
+| `JWT_SECRET` | Secret para tokens JWT | — |
+| `NASA_API_KEY` | Chave da API NASA | `DEMO_KEY` |
+| `ASTRONOMY_API_APP_ID` | App ID do AstronomyAPI | — |
+| `ASTRONOMY_API_APP_SECRET` | App Secret do AstronomyAPI | — |
+| `BLOB_READ_WRITE_TOKEN` | Token do Vercel Blob Storage | — |
+| `VITE_ENABLE_EXPORT` | Habilitar exportação social | `false` |
 
-```
-backend/          # API Spring Boot
-frontend/         # SPA React
-infra/            # Docker Compose e configuração
-specs/            # Especificações e planos das features
-docs/             # Documentos de referência
-```
+---
 
-## APIs externas integradas
+## Licença
 
-- **NASA APOD & NEO** — imagens e objetos próximos da Terra
-- **USNO** — dados de eclipses
-- **NOAA SWPC** — índice Kp para auroras
-- **Stellarium** — catálogo de chuvas de meteoros
-- **OpenWeatherMap** — previsão climática para observabilidade
-- **Vercel Blob** — armazenamento de imagens (avatares, exportações)
+Este projeto é de uso pessoal e portfólio.
