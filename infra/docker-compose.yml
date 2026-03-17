@@ -1,0 +1,89 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: skywatch-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: skywatch
+      POSTGRES_USER: skywatch
+      POSTGRES_PASSWORD: skywatch
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U skywatch"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - skywatch-network
+
+  redis:
+    image: redis:7
+    container_name: skywatch-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - skywatch-network
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: skywatch-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/skywatch
+      SPRING_DATASOURCE_USERNAME: skywatch
+      SPRING_DATASOURCE_PASSWORD: skywatch
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      JWT_SECRET: dev-secret-change-in-production-min-32-chars!!
+      BLOB_READ_WRITE_TOKEN: ${BLOB_READ_WRITE_TOKEN:-}
+      BLOB_PUBLIC_BASE_URL: ${BLOB_PUBLIC_BASE_URL:-}
+      BLOB_API_URL: ${BLOB_API_URL:-https://blob.vercel-storage.com}
+      WEATHER_API_KEY: 64aede2f11516f119226d6bb20d9049a
+      NASA_API_KEY: ${NASA_API_KEY:-DEMO_KEY}
+      ASTRONOMY_API_BASE_URL: ${ASTRONOMY_API_BASE_URL:-https://api.astronomyapi.com}
+      ASTRONOMY_API_APP_ID: ${ASTRONOMY_API_APP_ID:-}
+      ASTRONOMY_API_APP_SECRET: ${ASTRONOMY_API_APP_SECRET:-}
+      ASTRONOMY_API_OBSERVER_LATITUDE: ${ASTRONOMY_API_OBSERVER_LATITUDE:-0.0}
+      ASTRONOMY_API_OBSERVER_LONGITUDE: ${ASTRONOMY_API_OBSERVER_LONGITUDE:-0.0}
+      ASTRONOMY_API_OBSERVER_ELEVATION: ${ASTRONOMY_API_OBSERVER_ELEVATION:-0}
+      ASTRONOMY_API_OBSERVER_TIME: ${ASTRONOMY_API_OBSERVER_TIME:-12:00:00}
+      SBDB_API_BASE_URL: ${SBDB_API_BASE_URL:-https://ssd-api.jpl.nasa.gov}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - skywatch-network
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_ENABLE_EXPORT: ${VITE_ENABLE_EXPORT:-false}
+    container_name: skywatch-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - skywatch-network
+
+volumes:
+  postgres-data:
+
+networks:
+  skywatch-network:
+    driver: bridge
