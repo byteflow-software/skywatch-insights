@@ -1,0 +1,12 @@
+[
+  {"target":"Saturno","occultedBy":"Lua","date":"2026-01-04","visibilityRegion":"Africa, Europa, Asia Ocidental","notes":"Ocultacao lunar de Saturno visivel em grande parte do hemisferio oriental"},
+  {"target":"Saturno","occultedBy":"Lua","date":"2026-02-01","visibilityRegion":"America do Norte, Europa","notes":"Ocultacao lunar de Saturno"},
+  {"target":"Saturno","occultedBy":"Lua","date":"2026-02-28","visibilityRegion":"Asia, Oceania","notes":"Ocultacao lunar de Saturno"},
+  {"target":"Saturno","occultedBy":"Lua","date":"2026-12-09","visibilityRegion":"America do Sul, Africa","notes":"Ocultacao lunar de Saturno visivel no Brasil"},
+  {"target":"Marte","occultedBy":"Lua","date":"2026-07-10","visibilityRegion":"Europa, Africa do Norte","notes":"Ocultacao lunar de Marte"},
+  {"target":"Venus","occultedBy":"Lua","date":"2026-04-09","visibilityRegion":"Asia Oriental","notes":"Ocultacao lunar de Venus"},
+  {"target":"Jupiter","occultedBy":"Lua","date":"2026-08-27","visibilityRegion":"America do Sul, Africa","notes":"Ocultacao lunar de Jupiter visivel no Brasil"},
+  {"target":"Regulus","occultedBy":"Lua","date":"2026-06-08","visibilityRegion":"America do Norte","notes":"Ocultacao lunar da estrela Regulus (Alpha Leonis)"},
+  {"target":"Antares","occultedBy":"Lua","date":"2026-09-10","visibilityRegion":"Asia, Oceania","notes":"Ocultacao lunar da estrela Antares (Alpha Scorpii)"},
+  {"target":"Spica","occultedBy":"Lua","date":"2026-11-11","visibilityRegion":"Europa, Africa","notes":"Ocultacao lunar da estrela Spica (Alpha Virginis)"}
+]

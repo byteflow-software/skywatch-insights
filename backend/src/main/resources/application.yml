@@ -1,0 +1,124 @@
+spring:
+  application:
+    name: skywatch-insights-backend
+  profiles:
+    default: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skywatch
+    username: skywatch
+    password: skywatch
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  cache:
+    type: redis
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+      show-components: when_authorized
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-secret-change-in-production}
+    expiration: 900
+    refresh-expiration: 604800
+  blob:
+    token: ${BLOB_READ_WRITE_TOKEN:}
+    public-base-url: ${BLOB_PUBLIC_BASE_URL:}
+    api-url: ${BLOB_API_URL:https://blob.vercel-storage.com}
+  weather:
+    api-key: ${WEATHER_API_KEY:}
+    base-url: https://api.openweathermap.org/data/2.5
+    cache-ttl-hours: 3
+  nasa:
+    api-key: ${NASA_API_KEY:}
+    base-url: https://api.nasa.gov
+  astronomyapi:
+    base-url: ${ASTRONOMY_API_BASE_URL:https://api.astronomyapi.com}
+    app-id: ${ASTRONOMY_API_APP_ID:}
+    app-secret: ${ASTRONOMY_API_APP_SECRET:}
+    observer:
+      latitude: ${ASTRONOMY_API_OBSERVER_LATITUDE:0.0}
+      longitude: ${ASTRONOMY_API_OBSERVER_LONGITUDE:0.0}
+      elevation: ${ASTRONOMY_API_OBSERVER_ELEVATION:0}
+      time: ${ASTRONOMY_API_OBSERVER_TIME:12:00:00}
+  sbdb:
+    base-url: ${SBDB_API_BASE_URL:https://ssd-api.jpl.nasa.gov}
+  usno:
+    base-url: ${USNO_BASE_URL:https://aa.usno.navy.mil/api}
+  noaa:
+    base-url: ${NOAA_SWPC_BASE_URL:https://services.swpc.noaa.gov}
+  cors:
+    allowed-origins: http://localhost:5173,http://localhost:3000
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    com.skywatch: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:tc:postgresql:16:///skywatch_test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+---
+spring:
+  config:
+    activate:
+      on-profile: seed
+  sql:
+    init:
+      mode: always

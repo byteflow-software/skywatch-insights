@@ -1,0 +1,7 @@
+[
+  {"planet":"Mercury","date":"2032-11-13","durationMinutes":318,"type":"Transit of Mercury across the Sun"},
+  {"planet":"Mercury","date":"2039-11-07","durationMinutes":330,"type":"Transit of Mercury across the Sun"},
+  {"planet":"Mercury","date":"2049-05-07","durationMinutes":330,"type":"Transit of Mercury across the Sun"},
+  {"planet":"Venus","date":"2117-12-10","durationMinutes":378,"type":"Transit of Venus across the Sun"},
+  {"planet":"Venus","date":"2125-12-08","durationMinutes":378,"type":"Transit of Venus across the Sun"}
+]

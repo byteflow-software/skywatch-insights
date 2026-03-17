@@ -1,0 +1,16 @@
+INSERT INTO locations (id, name, latitude, longitude, country_code, timezone, created_at, updated_at) VALUES
+    (gen_random_uuid(), 'São Paulo', -23.550520, -46.633308, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Rio de Janeiro', -22.906847, -43.172896, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Brasília', -15.794229, -47.882166, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Belo Horizonte', -19.919052, -43.938639, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Curitiba', -25.428954, -49.267137, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Porto Alegre', -30.034647, -51.217658, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Salvador', -12.977749, -38.516949, 'BR', 'America/Bahia', NOW(), NOW()),
+    (gen_random_uuid(), 'Recife', -8.047562, -34.877011, 'BR', 'America/Recife', NOW(), NOW()),
+    (gen_random_uuid(), 'Fortaleza', -3.731862, -38.526669, 'BR', 'America/Fortaleza', NOW(), NOW()),
+    (gen_random_uuid(), 'Manaus', -3.119028, -60.021731, 'BR', 'America/Manaus', NOW(), NOW()),
+    (gen_random_uuid(), 'Belém', -1.455753, -48.490180, 'BR', 'America/Belem', NOW(), NOW()),
+    (gen_random_uuid(), 'Goiânia', -16.686882, -49.264789, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Campinas', -22.905858, -47.060943, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Florianópolis', -27.594870, -48.548219, 'BR', 'America/Sao_Paulo', NOW(), NOW()),
+    (gen_random_uuid(), 'Vitória', -20.315950, -40.312780, 'BR', 'America/Sao_Paulo', NOW(), NOW());
