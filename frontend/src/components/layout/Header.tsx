@@ -7,7 +7,6 @@ import api from "@/services/api";
 import { useQueryClient } from "@tanstack/react-query";
 
 const NAV_LINKS = [
-  { to: "/dashboard", label: "Dashboard" },
   { to: "/events", label: "Eventos" },
   { to: "/favorites", label: "Favoritos" },
   { to: "/observations", label: "Observações" },
@@ -93,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, sidebarOpen }) => {
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <Link to="/dashboard" className="flex items-center gap-2">
+        <Link to="/events" className="flex items-center gap-2">
           <span className="text-xl font-bold text-white">
             SkyWatch <span className="text-[#0EA5E9]">Insights</span>
           </span>

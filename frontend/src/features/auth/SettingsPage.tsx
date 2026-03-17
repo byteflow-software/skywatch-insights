@@ -194,7 +194,7 @@ export function SettingsPage() {
       {/* Admin link */}
       {isAdmin && (
         <Link
-          to="/dashboard"
+          to="/admin"
           className="mb-8 flex items-center gap-3 rounded-2xl border border-[#6366F1]/20 bg-[#6366F1]/10 p-4 transition-all hover:border-[#6366F1]/40 hover:bg-[#6366F1]/15"
         >
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#6366F1]/20">

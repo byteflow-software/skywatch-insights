@@ -20,7 +20,6 @@ import HomePage from "../features/home/HomePage";
 import PublicLayout from "../components/layout/PublicLayout";
 
 // Feature pages (default exports)
-import DashboardPage from "../features/dashboard/DashboardPage";
 import EventListPage from "../features/events/EventListPage";
 import EventDetailPage from "../features/events/EventDetailPage";
 import ArchivedEventsPage from "../features/events/ArchivedEventsPage";
@@ -130,18 +129,10 @@ const router = createBrowserRouter([
           { path: "/settings/branding", element: <BrandingSettings /> },
         ],
       },
-      // Admin routes with MainLayout (dashboard stays as-is)
+      // Admin routes with MainLayout
       {
         element: <AdminLayoutWrapper />,
         children: [
-          {
-            path: "/dashboard",
-            element: (
-              <AdminRoute>
-                <DashboardPage />
-              </AdminRoute>
-            ),
-          },
           {
             path: "/admin/*",
             element: (

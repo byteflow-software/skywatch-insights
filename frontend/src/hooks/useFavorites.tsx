@@ -20,7 +20,6 @@ function invalidateAll(queryClient: ReturnType<typeof useQueryClient>) {
   queryClient.invalidateQueries({ queryKey: ['events'] });
   queryClient.invalidateQueries({ queryKey: ['home-events'] });
   queryClient.invalidateQueries({ queryKey: ['event'] });
-  queryClient.invalidateQueries({ queryKey: ['dashboard'] });
 }
 
 export function useToggleFavorite() {

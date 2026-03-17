@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {
-  Home,
   Calendar,
   Heart,
   Telescope,
@@ -10,7 +9,6 @@ import {
 } from "lucide-react";
 
 const NAV_ITEMS = [
-  { to: "/dashboard", label: "Dashboard", icon: Home },
   { to: "/events", label: "Eventos", icon: Calendar },
   { to: "/favorites", label: "Favoritos", icon: Heart },
   { to: "/observations", label: "Observações", icon: Telescope },

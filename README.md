@@ -21,8 +21,8 @@ O SkyWatch Insights é uma aplicação fullstack que consome **6 APIs externas r
 | Classes Java (backend) | 132 |
 | Componentes TypeScript (frontend) | 76 |
 | Migrations SQL (Flyway) | 23 |
-| Módulos backend | 16 |
-| Módulos frontend | 9 |
+| Módulos backend | 15 |
+| Módulos frontend | 8 |
 | APIs externas integradas | 6 |
 
 ---
@@ -85,9 +85,6 @@ Upload via Vercel Blob Storage com validação de tipo (JPEG, PNG, WebP, GIF) e 
 
 ### Exportação para redes sociais (Beta)
 Geração de cards visuais otimizados para Instagram, Twitter/X e Facebook com informações do evento.
-
-### Dashboard
-Estatísticas de uso, eventos próximos em destaque e resumo de atividade do usuário.
 
 ### Autenticação
 Registro e login com JWT, proteção de rotas e gerenciamento de perfil.
@@ -157,7 +154,6 @@ backend/                          # API Spring Boot
 │   ├── comment/                  # Comentários polimórficos
 │   ├── export/                   # Exportação para redes sociais
 │   ├── user/                     # Perfil e avatar
-│   ├── dashboard/                # Dashboard e estatísticas
 │   ├── highlight/                # Destaques editoriais
 │   ├── analytics/                # Tracking de uso
 │   ├── admin/                    # Painel administrativo
@@ -176,7 +172,6 @@ frontend/                         # SPA React
 │   │   ├── favorites/            # Página de favoritos
 │   │   ├── observations/         # Observações pessoais
 │   │   ├── export/               # Exportação social (beta)
-│   │   ├── dashboard/            # Dashboard
 │   │   ├── auth/                 # Login, registro, configurações
 │   │   ├── admin/                # Painel admin
 │   │   └── analytics/            # Tracking
