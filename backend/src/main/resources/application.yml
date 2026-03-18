@@ -81,7 +81,7 @@ app:
   noaa:
     base-url: ${NOAA_SWPC_BASE_URL:https://services.swpc.noaa.gov}
   cors:
-    allowed-origins: http://localhost:5173,http://localhost:3000
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
 
 logging:
   pattern:
