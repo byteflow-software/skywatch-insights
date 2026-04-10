@@ -23,7 +23,7 @@ const HeroHighlight: React.FC<HeroHighlightProps> = ({ event }) => {
   const iconPath = getTypeIconPath(event.type);
 
   return (
-    <section className="relative min-h-[100vh] w-full overflow-hidden">
+    <section className="relative min-h-[100vh] w-full overflow-hidden pt-16">
       {/* Gradient background — no image */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#050A18] via-[#0F172A] to-[#1e1b4b]" />
 
